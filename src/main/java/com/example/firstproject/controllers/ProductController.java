@@ -1,8 +1,12 @@
 package com.example.firstproject.controllers;
 
+import com.example.firstproject.config.Configuration;
+import com.example.firstproject.exceptions.CategoryNotFoundException;
 import com.example.firstproject.exceptions.ProductNotFoundException;
+import com.example.firstproject.models.Limit;
 import com.example.firstproject.models.Product;
 import com.example.firstproject.services.ProductService;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +18,16 @@ import java.util.List;
 public class ProductController {
 
     private ProductService productService;
-    public ProductController(ProductService productService){
+    private Configuration configuration;
+    public ProductController(@Qualifier("selfProductService") ProductService productService, Configuration configuration){
         this.productService=productService;
+        this.configuration=configuration;
+    }
+
+    @GetMapping("/limits")
+    public Limit getLimits(){
+//        return new Limit(1,9999);
+        return new Limit(configuration.getMinimum(), configuration.getMaximum());
     }
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
@@ -34,14 +46,17 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<Product> addProduct(@RequestBody Product product){
-        System.out.println("response...."+product);
-        Product addedProduct = productService.addProduct(product);
+    public ResponseEntity<Product> createProduct(@RequestBody Product product) throws CategoryNotFoundException {
+//        Product addedProduct = productService.addProduct(product);
+//        ResponseEntity response;
+//        if(addedProduct==null){
+//            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+//        }
+//        response=new ResponseEntity<>(addedProduct, HttpStatus.OK);
+//        return response;
+        Product newProduct = productService.createProduct(product);
         ResponseEntity response;
-        if(addedProduct==null){
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-        response=new ResponseEntity<>(addedProduct, HttpStatus.OK);
+        response=new ResponseEntity<>(newProduct, HttpStatus.OK);
         return response;
     }
 

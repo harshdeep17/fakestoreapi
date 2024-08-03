@@ -1,8 +1,11 @@
 package com.example.firstproject.exceptionHandlers;
 
+import com.example.firstproject.dtos.CategoryNotFoundExceptionDto;
 import com.example.firstproject.dtos.ExceptionDto;
 import com.example.firstproject.dtos.ProductNotFoundExceptionDto;
+import com.example.firstproject.exceptions.CategoryNotFoundException;
 import com.example.firstproject.exceptions.ProductNotFoundException;
+import com.example.firstproject.models.Category;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -34,6 +37,16 @@ public class ExceptionHandlers {
         productNotFoundExceptionDto.setMessage(productNotFoundException.getMessage());
 //        productNotFoundExceptionDto.setMessage("Product with id "+productNotFoundException.getId()+" not found");
         ResponseEntity<ProductNotFoundExceptionDto> responseEntity=new ResponseEntity<>(productNotFoundExceptionDto,HttpStatus.NOT_FOUND);
+        return responseEntity;
+    }
+    @ExceptionHandler(CategoryNotFoundException.class)
+    public ResponseEntity<CategoryNotFoundExceptionDto> handleCategoryNotFoundException(CategoryNotFoundException categoryNotFoundException){
+        CategoryNotFoundExceptionDto categoryNotFoundExceptionDto=new CategoryNotFoundExceptionDto();
+        categoryNotFoundExceptionDto.setTimestamp(LocalDateTime.now());
+        categoryNotFoundExceptionDto.setError("Not found");
+        categoryNotFoundExceptionDto.setMessage(categoryNotFoundException.getMessage());
+//        categoryNotFoundExceptionDto.setMessage("Category with id "+categoryNotFoundException.getId()+" not found");
+        ResponseEntity<CategoryNotFoundExceptionDto> responseEntity=new ResponseEntity<>(categoryNotFoundExceptionDto,HttpStatus.NOT_FOUND);
         return responseEntity;
     }
 }
