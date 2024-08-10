@@ -6,12 +6,14 @@ import com.example.firstproject.models.Category;
 import com.example.firstproject.models.Product;
 import com.example.firstproject.repositories.CategoryRepository;
 import com.example.firstproject.repositories.ProductRepository;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service("selfProductService")
+@Primary
 public class SelfProductService implements ProductService{
     private ProductRepository productRepository;
     private CategoryRepository categoryRepository;
@@ -31,14 +33,14 @@ public class SelfProductService implements ProductService{
 
     @Override
     public List<Product> getAllProduct() {
-        return null;
+        return productRepository.findAll();
     }
 
     @Override
     public Product createProduct(Product product) throws CategoryNotFoundException {
         Category category=product.getCategory();
         if(category.getId()==null){
-            category=categoryRepository.save(category);
+//            category=categoryRepository.save(category);
             product.setCategory(category);
         }else{
             //check for invalid id

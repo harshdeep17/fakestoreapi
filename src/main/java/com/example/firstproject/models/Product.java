@@ -1,11 +1,12 @@
 package com.example.firstproject.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.Cascade;
 
 @Getter
 @Setter
@@ -15,8 +16,13 @@ public class Product extends BaseModel{
     private String description;
     private double price;
     private String image;
-    @ManyToOne
+    @ManyToOne(cascade=CascadeType.PERSIST)
     @JoinColumn(name = "category_id")
+//    @JsonIgnore
+    @JsonManagedReference
     private Category category;
+    private int quantity;
+
+
 }
 //@JoinColumn: Defines the foreign key column category_id in the Product table.

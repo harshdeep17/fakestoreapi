@@ -31,7 +31,7 @@ public class ProductController {
     }
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable("id") Long id) throws ProductNotFoundException {
-        System.out.println("response");
+//        System.out.println("response");
         Product product=productService.getProductById(id);
         ResponseEntity<Product> response;
         if(product==null){
@@ -41,8 +41,10 @@ public class ProductController {
         return response;
     }
     @GetMapping()
-    public List<Product> getAllProduct(){
-        return productService.getAllProduct();
+    public ResponseEntity<List<Product>> getAllProduct(){
+        List<Product> productList = productService.getAllProduct();
+        ResponseEntity<List<Product>> response = new ResponseEntity<>(productList,HttpStatus.OK);
+        return response;
     }
 
     @PostMapping()
