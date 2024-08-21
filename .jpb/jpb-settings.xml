@@ -5,7 +5,7 @@
     <persistence-units>
       <persistence-unit name="Default">
         <packages>
-          <package value="com.example.firstproject" />
+          <package value="com.example.microservices" />
         </packages>
       </persistence-unit>
     </persistence-units>
