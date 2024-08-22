@@ -14,7 +14,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/products/token-info").permitAll()
                         .requestMatchers("/products/{id}").hasAuthority("SCOPE_ADMIN")
-//                        .requestMatchers("/products/{id}").hasAnyRole("ADMIN")
+//                        .requestMatchers("/products/**").hasAnyRole("ADMIN")
                                 .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()));
